@@ -1,0 +1,53 @@
+﻿@model int
+@{
+    ViewData["Title"] = "FizzBuzz Result";
+    var results = ViewBag.Results as List<string>;
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
+    int number = ViewBag.Number;
+}
+
+<h2>FizzBuzz Result up to @number (Page @currentPage of @totalPages)</h2>
+
+<div class="mb-3">
+    @foreach (var item in results)
+    {
+        <div>
+            @if (item == "Fizz Buzz" || item == "Wizz Wuzz")
+            {
+                var first = item.Substring(0, item.Length / 2 + 1);
+                var second = item.Substring(item.Length / 2 + 1);
+                <span class="@first.ToLower()">@first</span>
+                <span class="@second.ToLower()">@second</span>
+            }
+            else
+            {
+                <span class="@item.ToLower()">@item</span>
+            }
+        </div>
+    }
+
+
+</div>
+
+<div class="d-flex justify-content-between">
+    @if (currentPage > 1)
+    {
+            <a asp-action="Result" asp-route-number="@number" asp-route-page="@(currentPage - 1)" class="btn btn-outline-primary">
+                &laquo; Previous
+            </a>
+    }
+    else
+    {
+            <span></span>
+    }
+
+    @if (currentPage < totalPages)
+    {
+            <a asp-action="Result" asp-route-number="@number" asp-route-page="@(currentPage + 1)" class="btn btn-outline-primary ms-auto">
+                Next &raquo;
+            </a>
+    }
+</div>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Try Again</a>
